@@ -1,6 +1,8 @@
 import vibe.d, std.algorithm, std.process, std.range, std.regex;
+import travis : TravisBuildCanceller;
 
 string githubAuth, trelloSecret, trelloAuth, hookSecret;
+TravisBuildCanceller travisBuildCanceller;
 
 shared static this()
 {
@@ -23,6 +25,7 @@ shared static this()
     trelloSecret = environment["TRELLO_SECRET"];
     trelloAuth = "key="~environment["TRELLO_KEY"]~"&token="~environment["TRELLO_TOKEN"];
     hookSecret = environment["GH_HOOK_SECRET"];
+    travisBuildCanceller = TravisBuildCanceller(environment["TRAVIS_TOKEN"]);
     // workaround for stupid openssl.conf on Heroku
     //HTTPClient.setTLSSetupCallback((ctx) {
     //    ctx.useTrustedCertificateFile("/etc/ssl/certs/ca-certificates.crt");
@@ -66,6 +69,14 @@ void githubHook(HTTPServerRequest req, HTTPServerResponse res)
         auto commitsURL = json["pull_request"]["commits_url"].get!string;
         auto commentsURL = json["pull_request"]["comments_url"].get!string;
         runTask(toDelegate(&handlePR), action, pullRequestURL, commitsURL, commentsURL);
+
+        if (action == "synchronize")
+        {
+            // check for open builds
+            auto ghRepo = json["pull_request"]["base"]["repo"]["name"].get!string;
+            auto ghOrg = json["pull_request"]["base"]["repo"]["owner"]["login"].get!string;
+            runTask(() => travisBuildCanceller.run(ghOrg, ghRepo));
+        }
         return res.writeBody("handled");
     default:
         return res.writeBody("ignored");

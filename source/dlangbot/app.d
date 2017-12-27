@@ -35,9 +35,6 @@ void startServer(HTTPServerSettings settings)
     import vibe.http.fileserver : serveStaticFiles;
     import vibe.http.server : HTTPServerOption, listenHTTP, render;
 
-    settings.bindAddresses = ["0.0.0.0"];
-    settings.options = HTTPServerOption.defaults & ~HTTPServerOption.parseJsonBody;
-
     auto router = new URLRouter;
     router
         .get("/", (req, res) => res.render!"index.dt")
@@ -52,7 +49,7 @@ void startServer(HTTPServerSettings settings)
 
     prThrottler = typeof(prThrottler)(&searchForAutoMergePrs, timeBetweenFullPRChecks);
 
-    listenHTTP(settings, router);
+    listenHTTP("0.0.0.0:8080", router);
 }
 
 //==============================================================================

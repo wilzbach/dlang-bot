@@ -92,8 +92,8 @@ unittest
         "/github/repos/dlang/dmd/pulls/6359/commits", (ref Json json) {
             json = Json.emptyArray;
         },
-        "/github/repos/dlang/dmd/issues/6359/comments",
-        "/github/repos/dlang/dmd/issues/6359/comments",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
         "/github/repos/dlang/dmd/issues/6359/labels",
         "/github/repos/dlang/dmd/issues/6359/labels",
@@ -118,8 +118,8 @@ unittest
         "/github/repos/dlang/dmd/pulls/6359/commits", (ref Json json) {
             json = Json.emptyArray;
         },
-        "/github/repos/dlang/dmd/issues/6359/comments",
-        "/github/repos/dlang/dmd/issues/6359/comments",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
     );
 

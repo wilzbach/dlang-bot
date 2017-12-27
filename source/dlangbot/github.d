@@ -96,7 +96,7 @@ If your PR contains non-trivial changes, please [reference a Bugzilla issue](htt
 GHComment getBotComment(in ref PullRequest pr)
 {
     // the bot may post multiple comments (mention-bot & bugzilla links)
-    auto res = ghGetRequest(pr.commentsURL)
+    auto res = ghGetRequest(pr.commentsURL ~ "?per_page=100")
         .readJson[]
         .find!(c => c["user"]["login"] == "dlang-bot");
     if (res.length)
@@ -336,7 +336,7 @@ void searchForInactivePrs(string repoSlug, Duration dur)
             // fetch the recent comments
             // TODO: direction doesn't seem to work here
             // https://developer.github.com/v3/issues/comments/#list-comments-in-a-repository
-            const lastComment = ghGetRequest(pr.commentsURL)
+            const lastComment = ghGetRequest(pr.commentsURL ~ "?per_page=100")
                                 .readJson[$ - 1].deserializeJson!GHComment;
 
             auto timeDiff = now - lastComment.updatedAt;

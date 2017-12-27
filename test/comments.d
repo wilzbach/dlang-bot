@@ -8,7 +8,7 @@ unittest
     setAPIExpectations(
         "/github/repos/dlang/phobos/pulls/4921/commits",
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         "/github/repos/dlang/phobos/issues/comments/262784442",
@@ -35,13 +35,13 @@ unittest
     setAPIExpectations(
         "/github/repos/dlang/phobos/pulls/4921/commits",
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments", (ref Json j) {
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100", (ref Json j) {
             j = Json.emptyArray;
         },
         "/github/orgs/dlang/public_members?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         // no bug fix label, since Issues are only referenced but not fixed according to commit messages
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
             assert(req.method == HTTPMethod.POST);
             auto expectedComment =
@@ -72,7 +72,7 @@ unittest
             // ignore casing
             j[0]["name"] = "bug fix";
         },
-         "/github/repos/dlang/phobos/issues/4921/comments",
+         "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
          "/github/repos/dlang/phobos/issues/comments/262784442",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
@@ -97,7 +97,7 @@ unittest
             j = Json.emptyArray;
          },
         "/github/repos/dlang/phobos/issues/4921/labels",
-         "/github/repos/dlang/phobos/issues/4921/comments", (ref Json j) {
+         "/github/repos/dlang/phobos/issues/4921/comments?per_page=100", (ref Json j) {
             // any arbitrary comment should be removed
             j[0]["body"] = "Foo bar";
          },
@@ -123,7 +123,7 @@ unittest
         "/github/repos/dlang/phobos/pulls/4921/commits", (ref Json j) {
             j[0]["commit"]["message"] = "Fix Issue 8573";
         },
-         "/github/repos/dlang/phobos/issues/4921/comments",
+         "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
             res.writeBody(
@@ -159,7 +159,7 @@ unittest
         "/github/repos/dlang/phobos/pulls/4921/commits", (ref Json j) {
             j[0]["commit"]["message"] = "Fix Issue 8573";
         },
-         "/github/repos/dlang/phobos/issues/4921/comments",
+         "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         "/github/repos/dlang/phobos/issues/4921/labels",
         "/github/repos/dlang/phobos/issues/4921/labels", (ref Json j) {
@@ -194,7 +194,7 @@ unittest
             assert(req.method == HTTPMethod.DELETE);
             res.statusCode = 200;
         },
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
         "/github/repos/dlang/phobos/issues/comments/262784442",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
@@ -210,7 +210,7 @@ unittest
 {
     setAPIExpectations(
         "/github/repos/dlang/phobos/pulls/4963/commits",
-        "/github/repos/dlang/phobos/issues/4963/comments",
+        "/github/repos/dlang/phobos/issues/4963/comments?per_page=100",
     );
 
     postGitHubHook("dlang_phobos_merged_4963.json");
@@ -224,7 +224,7 @@ unittest
             j[0]["commit"]["message"] = "Fix Issue 8573";
         },
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments", (ref Json j) {
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100", (ref Json j) {
             j = Json.emptyArray;
         },
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
@@ -239,7 +239,7 @@ unittest
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
             res.writeJsonBody(Json.emptyArray);
         },
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
             assert(req.method == HTTPMethod.POST);
             auto expectedComment =
@@ -272,7 +272,7 @@ unittest
             j = Json.emptyArray;
          },
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
         "/github/repos/dlang/phobos/issues/comments/262784442",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
@@ -299,7 +299,7 @@ unittest
             res.statusCode = 200;
         },
         "/bugzilla/buglist.cgi?bug_id=17564&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
-        "/github/repos/dlang/phobos/issues/5519/comments",
+        "/github/repos/dlang/phobos/issues/5519/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
         "/github/repos/dlang/phobos/issues/comments/311653375",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
@@ -319,7 +319,7 @@ unittest
     setAPIExpectations(
         "/github/repos/dlang/phobos/pulls/5519/commits",
         "/bugzilla/buglist.cgi?bug_id=17564&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
-        "/github/repos/dlang/phobos/issues/5519/comments",
+        "/github/repos/dlang/phobos/issues/5519/comments?per_page=100",
         "/github/orgs/dlang/public_members?per_page=100",
         "/github/repos/dlang/phobos/issues/comments/311653375",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
@@ -341,7 +341,7 @@ unittest
     setAPIExpectations(
         "/github/repos/dlang/phobos/pulls/4921/commits",
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         "/trello/1/search?query=name:%22Issue%208573%22&"~trelloAuth,
     );
@@ -359,7 +359,7 @@ unittest
             j[0]["commit"]["message"] = "Issue 8573";
         },
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments", (ref Json j) {
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100", (ref Json j) {
             j = Json.emptyArray;
         },
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
@@ -369,7 +369,7 @@ unittest
 8573,"A simpler Phobos function that returns the index of the mix or max item","NEW","---","regression","P2"`);
         },
         "/github/orgs/dlang/public_members?per_page=100",
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
             assert(req.method == HTTPMethod.POST);
             assert(!req.json["body"].get!string.canFind("Regression or critical bug fixes"));
@@ -388,7 +388,7 @@ unittest
             j[0]["commit"]["message"] = "Fix Issue 8573";
         },
         "/github/repos/dlang/phobos/issues/4921/labels",
-        "/github/repos/dlang/phobos/issues/4921/comments", (ref Json j) {
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100", (ref Json j) {
             j = Json.emptyArray;
         },
         "/bugzilla/buglist.cgi?bug_id=8573&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
@@ -400,7 +400,7 @@ unittest
         "/github/repos/dlang/phobos/issues/4921/labels",
         "/github/repos/dlang/phobos/issues/4921/labels",
         "/github/orgs/dlang/public_members?per_page=100",
-        "/github/repos/dlang/phobos/issues/4921/comments",
+        "/github/repos/dlang/phobos/issues/4921/comments?per_page=100",
         (scope HTTPServerRequest req, scope HTTPServerResponse res){
             assert(req.method == HTTPMethod.POST);
             assert(!req.json["body"].get!string.canFind("Regression or critical bug fixes"));

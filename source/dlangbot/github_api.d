@@ -182,7 +182,7 @@ struct PullRequest
     }
 
     GHComment[] comments() const {
-        return ghGetRequest(commentsURL)
+        return ghGetRequest(commentsURL ~ "?per_page=100")
                 .readJson
                 .deserializeJson!(GHComment[]);
     }

@@ -45,10 +45,10 @@ unittest
 {
     setAPIExpectations(
         "/github/repos/dlang/dmd/pulls/6359/commits",
-        "/github/repos/dlang/dmd/issues/6359/comments",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=16794&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         "/github/orgs/dlang/public_members?per_page=100",
-        "/github/repos/dlang/dmd/issues/6359/comments",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
         "/github/repos/dlang/dmd/issues/6359/labels", (ref Json j){
             j = Json.emptyArray;
         },
@@ -82,10 +82,10 @@ unittest
 {
     setAPIExpectations(
         "/github/repos/dlang/dmd/pulls/6359/commits",
-        "/github/repos/dlang/dmd/issues/6359/comments",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
         "/bugzilla/buglist.cgi?bug_id=16794&ctype=csv&columnlist=short_desc,bug_status,resolution,bug_severity,priority",
         "/github/orgs/dlang/public_members?per_page=100",
-        "/github/repos/dlang/dmd/issues/6359/comments",
+        "/github/repos/dlang/dmd/issues/6359/comments?per_page=100",
         "/github/repos/dlang/dmd/issues/6359/labels", (ref Json j){
             j = Json.emptyArray;
         },
